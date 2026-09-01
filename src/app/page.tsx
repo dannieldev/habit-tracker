@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-8 md:p-24 pt-12">
       <div className="z-10 w-full max-w-5xl flex flex-col md:flex-row items-center justify-between font-mono text-sm mb-12 gap-4">
-        <h1 className="text-3xl font-bold tracking-tighter text-white">Frictionless Habits</h1>
+        <h1 className="text-2xl md:text-4xl font-bold tracking-tighter text-white text-center md:text-left mb-4 md:mb-0">Frictionless Habits</h1>
         <div className="flex items-center gap-4 bg-slate-800/50 px-4 py-2 rounded-full border border-slate-700/50">
           <img src={user.photoURL || ""} alt="User profile" className="w-8 h-8 rounded-full border border-slate-700" />
           <span className="text-slate-300 hidden md:inline">{user.displayName}</span>
