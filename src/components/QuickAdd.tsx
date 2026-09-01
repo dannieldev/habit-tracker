@@ -13,6 +13,7 @@ const initialHabits = [
 export default function QuickAdd() {
   const [activeHabits, setActiveHabits] = useState<number[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const toggleHabit = (id: number) => {
     setActiveHabits(prev => 
@@ -23,11 +24,34 @@ export default function QuickAdd() {
     // Here we would sync with Firebase
   };
 
-  const handleSmartInputSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && inputValue.trim()) {
-      console.log("Processing Smart Input:", inputValue);
-      // Here we would call the AI API to parse the natural language
-      setInputValue("");
+  const handleSmartInputSubmit = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim() && !isProcessing) {
+      setIsProcessing(true);
+      const text = inputValue;
+      setInputValue(""); // Clear input immediately for better UX
+      
+      try {
+        const response = await fetch("/api/parse-habit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, availableHabits: initialHabits })
+        });
+        
+        if (response.ok) {
+          const { habitIds } = await response.json();
+          if (Array.isArray(habitIds) && habitIds.length > 0) {
+            // Activate the detected habits without removing existing ones
+            setActiveHabits(prev => {
+              const newSet = new Set([...prev, ...habitIds]);
+              return Array.from(newSet);
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error calling AI:", error);
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
 
