@@ -11,8 +11,9 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
-// Initialize Firebase only if it hasn't been initialized already
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+// Solo inicializamos Firebase si la llave existe para evitar crasheos (Error 500)
+const hasConfig = !!firebaseConfig.apiKey;
+const app = hasConfig ? (getApps().length > 0 ? getApp() : initializeApp(firebaseConfig)) : null;
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const auth = app ? getAuth(app) : null;
+export const db = app ? getFirestore(app) : null;

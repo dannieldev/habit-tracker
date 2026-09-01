@@ -25,6 +25,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth) {
+      console.warn("Firebase no está configurado. Mostrando UI sin login real.");
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
@@ -34,6 +40,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
+    if (!auth) {
+      alert("⚠️ Firebase no está configurado aún.\nPor favor añade tus credenciales en el archivo .env.local para que el login funcione.");
+      // Simular login temporal para que puedas ver la UI
+      setUser({ displayName: "Demo User", photoURL: "" } as User);
+      return;
+    }
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
@@ -43,6 +55,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
+    if (!auth) {
+      setUser(null);
+      return;
+    }
     try {
       await signOut(auth);
     } catch (error) {
