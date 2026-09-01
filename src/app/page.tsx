@@ -1,4 +1,5 @@
 import Heatmap from "@/components/Heatmap";
+import QuickAdd from "@/components/QuickAdd";
 
 export default function Home() {
   return (
@@ -28,26 +29,8 @@ export default function Home() {
         <Heatmap />
       </div>
 
-      {/* Quick Add Placeholder */}
-      <div className="w-full max-w-xl text-center">
-        <h2 className="text-xl font-semibold mb-6">Actividad de hoy</h2>
-        <div className="flex justify-center gap-4 mb-8">
-          <button className="px-6 py-3 rounded-full bg-slate-800 border border-slate-700 hover:border-primary/50 transition-colors">
-            📖 Leer
-          </button>
-          <button className="px-6 py-3 rounded-full bg-slate-800 border border-slate-700 hover:border-primary/50 transition-colors">
-            🏃‍♂️ Correr
-          </button>
-          <button className="px-6 py-3 rounded-full bg-slate-800 border border-slate-700 hover:border-primary/50 transition-colors">
-            💧 Agua
-          </button>
-        </div>
-        <input 
-          type="text" 
-          placeholder="O simplemente escribe qué hiciste hoy..." 
-          className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-6 py-4 outline-none focus:border-primary transition-colors text-white placeholder-slate-500"
-        />
-      </div>
+      {/* Quick Add Section */}
+      <QuickAdd />
     </main>
   );
 }
